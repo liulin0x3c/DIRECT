@@ -38,8 +38,6 @@ def DIRECT(f, bands, iterator_num):
         for i in range(dimensions):
             convert_x.append(x[i] * 2 * l + center_point[i] - l)
         return f(convert_x)
-        # return f(x)
-
     return half_DIRECT(fun_convert, convert_bands, iterator_num)
 
 
@@ -123,18 +121,14 @@ def get_divided_bands_list(f, bands):
         a_point[dimension] -= delta
         b_point = center_point.copy()
         b_point[dimension] += delta
-        # print(a_point)
-        # print(b_point)
         fa = f(a_point)
         fb = f(b_point)
         wi = min(fa, fb)
-        # print(wi)
         return wi
 
     get_wi(max_side_dimension_list[0])
     sorted_max_side_dimension_list = sorted(max_side_dimension_list, key=get_wi)
 
-    # print(sorted_max_side_dimension_list)
     # 切割出三个搜索区域
     divided_bands_list = [bands]
     need_divide_bands = bands
@@ -142,28 +136,19 @@ def get_divided_bands_list(f, bands):
         remove_array(divided_bands_list, need_divide_bands)
         divided_bands_list += divde_one_to_tree_block(need_divide_bands, dimension)
         need_divide_bands = divided_bands_list[-2]
-        # for i in divided_bands_list:
-        # print(i)
-        # print("\n")
     return divided_bands_list
 
 
 def sort_points(point_array):
     """Return point_array sorted by lftmost first, then by slopee, ascending."""
-
     def slope(y):
         """returns the slope of the 2 points."""
         x = point_array[0]
-        # print(x)
-        # print(y)
         if math.isclose(y[0], x[0]):
-            return x[1] - y[1] / 0.000000001
+            return x[1] - y[1] / 0.00000000001
 
         return (x[1] - y[1]) / \
                (x[0] - y[0])
-
-    # for point  in point_array:
-    #     print(point)
 
     def k(point):
         return point[0]
@@ -177,12 +162,10 @@ def graham_scan(point_array):
     """Takes an array of points to be scanned.
     Returns an array of points that make up the convex hull surrounding the points passed in in point_array.
     """
-
     def cross_product_orientation(a, b, c):
         """Returns the orientation of the set of points.
         >0 if x,y,z are clockwise, <0 if counterclockwise, 0 if co-linear.
         """
-
         return (b[1] - a[1]) * \
                (c[0] - a[0]) - \
                (b[0] - a[0]) * \
@@ -201,10 +184,7 @@ def graham_scan(point_array):
 
 
 def select_bands(f, bands_list):
-    # if len(bands_list) == 1:
-    #     return bands_list
     points = []
-    # d = {}
     for bands in bands_list:
         center_point = get_center_point(bands)
         dis = 0.
@@ -214,23 +194,11 @@ def select_bands(f, bands_list):
         dis = math.sqrt(dis)
         point = [dis, f(center_point), bands.copy()]
         points.append(point)
-        # d[dis] = bands
     hull = graham_scan(points)
     selected_bands = []
-    for point in points:
+    for point in hull:
         selected_bands.append(point[2])
-    # d.clear()
-    # print(d)
-
     return selected_bands
-
-    # selected_bands = []
-    # for bands in bands_list:
-    #     if randint(0, 2) != 0:
-    #         selected_bands.append(bands)
-    # return selected_bands
-
-    # return bands_list
 
 
 def half_DIRECT(f, bands, iterator_num):
@@ -258,12 +226,10 @@ def half_DIRECT(f, bands, iterator_num):
                 center_point = get_center_point(divided_bands)
                 min_f = min(f(center_point), min_f)
             total_bands_list += pure_divided_bands_list
-
-        print("iterator: ", end='')
-        print(i, end='')
-        print("\tmin:", end='')
-        print(min_f)
-
+        # print("iterator: ", end='')
+        # print(i, end='')
+        # print("\tmin:", end='')
+        # print(min_f)
     return min_f
 
 
@@ -299,7 +265,7 @@ def half_DIRECT(f, bands, iterator_num):
 
 if __name__ == '__main__':
     # img = np.zeros((520, 520, 3), np.uint8)
-    iterator_num = 5
+    iterator_num = 10
     dimensions = 2
     bands = np.zeros((dimensions, 2), dtype=np.longdouble)
     for i in range(dimensions):
