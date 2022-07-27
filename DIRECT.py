@@ -6,13 +6,13 @@ import numpy as np
 
 def fun_analysis(x):
     '''
-    here you can design your f(x).in this case, the function is represented as sigma（xi-1/3）²
+    here you can design your f(x).in this case, the function is sigma（xi-1/3）²
     :param x:[x0,x1,x2,x3,x4,x5......]
     :return:the value of f(x) (float type)
     '''
     y = 0.
     for i in x:
-        y += pow(i - 1 / 3, 1)
+        y += pow(i - 1 / 3, 2)
     return float(y)
 
 
@@ -24,24 +24,21 @@ def DIRECT(f, bands, iterator_num):
     :param iterator_num:
     :return: min
     '''
-    l = get_len_of_interval(bands[0])
-    n = len(bands)
+    l = get_len_of_interval(bands[0]) / 2
+    dimensions = len(bands)
 
     center_point = get_center_point(bands)
 
     convert_bands = np.zeros((dimensions, 2), dtype=np.longdouble)
     for dimension in range(dimensions):
-        bands[i] = [0, 1]
+        convert_bands[dimension] = [0, 1]
 
     def fun_convert(x):
-        # print(x)
         convert_x = []
-        for i in range(n):
+        for i in range(dimensions):
             convert_x.append(x[i] * 2 * l + center_point[i] - l)
-        # print(convert_x)
-        # print('\n')
-        # return f(convert_x)
-        return f(x)
+        return f(convert_x)
+        # return f(x)
 
     return half_DIRECT(fun_convert, convert_bands, iterator_num)
 
