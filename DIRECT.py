@@ -267,38 +267,38 @@ def half_DIRECT(f, bands, iterator_num):
     return min_f
 
 
-def draw_points(img, points_list):
-    point_size = 1
-    point_color = (0, 0, 255)  # BGR
-    thickness = 4  # 可以为 0 、4、8
-    for point in points_list:
-        p = [int(point[0] * 500) + 10, int(point[1] * 500) + 10]
-        cv2.circle(img, p, point_size, point_color, thickness)
+# def draw_points(img, points_list):
+#     point_size = 1
+#     point_color = (0, 0, 255)  # BGR
+#     thickness = 4  # 可以为 0 、4、8
+#     for point in points_list:
+#         p = [int(point[0] * 500) + 10, int(point[1] * 500) + 10]
+#         cv2.circle(img, p, point_size, point_color, thickness)
 
 
-def draw_line(img, points_list):
-    point_color = (0, 255, 0)  # BGR
-    thickness = 1
-    lineType = 4
-    for i in range(len(points_list) - 1):
-        point1 = points_list[i]
-        p1 = [int(point1[0] * 500) + 10, int(point1[1] * 500) + 10]
-        point2 = points_list[i + 1]
-        p2 = [int(point2[0] * 500) + 10, int(point2[1] * 500) + 10]
-        cv2.line(img, p1, p2, point_color, thickness, lineType)
+# def draw_line(img, points_list):
+#     point_color = (0, 255, 0)  # BGR
+#     thickness = 1
+#     lineType = 4
+#     for i in range(len(points_list) - 1):
+#         point1 = points_list[i]
+#         p1 = [int(point1[0] * 500) + 10, int(point1[1] * 500) + 10]
+#         point2 = points_list[i + 1]
+#         p2 = [int(point2[0] * 500) + 10, int(point2[1] * 500) + 10]
+#         cv2.line(img, p1, p2, point_color, thickness, lineType)
 
 
-def draw_2D_define(img, bands_2D):
-    bands = bands_2D
-    x_low = bands[0][0]
-    x_high = bands[0][1]
-    y_low = bands[1][0]
-    y_high = bands[1][1]
-    draw_line(img, [[x_low, y_low], [x_low, y_high], [x_high, y_high], [x_high, y_low], [x_low, y_low]])
-
+# def draw_2D_define(img, bands_2D):
+#     bands = bands_2D
+#     x_low = bands[0][0]
+#     x_high = bands[0][1]
+#     y_low = bands[1][0]
+#     y_high = bands[1][1]
+#     draw_line(img, [[x_low, y_low], [x_low, y_high], [x_high, y_high], [x_high, y_low], [x_low, y_low]])
+#
 
 if __name__ == '__main__':
-    img = np.zeros((520, 520, 3), np.uint8)
+    # img = np.zeros((520, 520, 3), np.uint8)
     iterator_num = 5
     dimensions = 2
     bands = np.zeros((dimensions, 2), dtype=np.longdouble)
