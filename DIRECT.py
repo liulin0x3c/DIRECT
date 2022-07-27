@@ -5,13 +5,25 @@ import numpy as np
 
 
 def fun_analysis(x):
+    '''
+    here you can design your f(x).in this case, the function is represented as sigma（xi-1/3）²
+    :param x:[x0,x1,x2,x3,x4,x5......]
+    :return:the value of f(x) (float type)
+    '''
     y = 0.
     for i in x:
-        y += i - 1 / 3
+        y += pow(i - 1 / 3, 1)
     return float(y)
 
 
 def DIRECT(f, bands, iterator_num):
+    '''
+    DIRECT implementation.
+    :param f: the f(x) you need analysis. such as fun_analysis(x).
+    :param bands:
+    :param iterator_num:
+    :return: min
+    '''
     l = get_len_of_interval(bands[0])
     n = len(bands)
 
@@ -22,10 +34,14 @@ def DIRECT(f, bands, iterator_num):
         bands[i] = [0, 1]
 
     def fun_convert(x):
+        # print(x)
         convert_x = []
         for i in range(n):
             convert_x.append(x[i] * 2 * l + center_point[i] - l)
-        return fun_analysis(convert_x)
+        # print(convert_x)
+        # print('\n')
+        # return f(convert_x)
+        return f(x)
 
     return half_DIRECT(fun_convert, convert_bands, iterator_num)
 
@@ -245,12 +261,11 @@ def half_DIRECT(f, bands, iterator_num):
                 center_point = get_center_point(divided_bands)
                 min_f = min(f(center_point), min_f)
             total_bands_list += pure_divided_bands_list
-        # for divided_bands in total_bands_list:
-        #     i = divided_bands
-        #     draw_2D_define(img, i)
 
-        # cv2.imshow('line', img)
-        # cv2.waitKey()
+        print("iterator: ", end='')
+        print(i, end='')
+        print("\tmin:", end='')
+        print(min_f)
 
     return min_f
 
@@ -273,7 +288,6 @@ def draw_line(img, points_list):
         p1 = [int(point1[0] * 500) + 10, int(point1[1] * 500) + 10]
         point2 = points_list[i + 1]
         p2 = [int(point2[0] * 500) + 10, int(point2[1] * 500) + 10]
-        # print(p1, p2)
         cv2.line(img, p1, p2, point_color, thickness, lineType)
 
 
@@ -288,7 +302,7 @@ def draw_2D_define(img, bands_2D):
 
 if __name__ == '__main__':
     img = np.zeros((520, 520, 3), np.uint8)
-    iterator_num = 6
+    iterator_num = 5
     dimensions = 2
     bands = np.zeros((dimensions, 2), dtype=np.longdouble)
     for i in range(dimensions):
